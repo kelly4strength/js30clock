@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+<!-- sets up divs and classes for each part of the clock -->
     <div class="clock">
       <div class="clock-face">
         <div class="hand hour-hand"></div>
@@ -55,12 +55,20 @@
       transform: translateY(-3px); /* account for the height of the clock hands */
     }
 
+/*want to apply a rotate to all of the hands depending on the time it currently is*/
+
     .hand {
       width:50%;
       height:6px;
       background:black;
       position: absolute;
-      top:50%;
+      top:50%;  
+
+      /*by default if you say "transfor: rotate(20deg)" the hand will rotate from the center(50%) so we have to change it to 100% so that it rotates starting at the far right */
+      transform-origin: 100%;
+
+      /*because divs are a block and left to right the aren't starting vertically as a clock would, so we want to rotate the entire thing*/
+      transform: rotate(90deg);
     }
 
   </style>
