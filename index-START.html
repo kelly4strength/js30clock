@@ -69,13 +69,37 @@
 
       /*because divs are a block and left to right the aren't starting vertically as a clock would, so we want to rotate the entire thing*/
       transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
 
   <script>
+    function setDate() {
+      const now = new Date();
+      const seconds = now.getSeconds;
+      // shows us the seconds counting in the console
+      // console.log(seconds);
+    }
+
+    // we need this to run every second so we have to set interval 
+    setInterval(setDate, 1000);
 
 
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
