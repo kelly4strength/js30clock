@@ -16,102 +16,96 @@
     </div>
 
 
-  <style>
-    html {
-      background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
-      background-size:cover;
-      font-family:'helvetica neue';
-      text-align: center;
-      font-size: 10px;
-    }
+<style>
+  html {
+    background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+    background-size:cover;
+    font-family:'helvetica neue';
+    text-align: center;
+    font-size: 10px;
+  }
 
-    body {
-      font-size: 2rem;
-      display:flex;
-      flex:1;
-      min-height: 100vh;
-      align-items: center;
-    }
+  body {
+    font-size: 2rem;
+    display:flex;
+    flex:1;
+    min-height: 100vh;
+    align-items: center;
+  }
 
-    .clock {
-      width: 30rem;
-      height: 30rem;
-      border:20px solid white;
-      border-radius:50%;
-      margin:50px auto;
-      position: relative;
-      padding:2rem;
-      box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
-    }
+  .clock {
+    width: 30rem;
+    height: 30rem;
+    border:20px solid white;
+    border-radius:50%;
+    margin:50px auto;
+    position: relative;
+    padding:2rem;
+    box-shadow:
+      0 0 0 4px rgba(0,0,0,0.1),
+      inset 0 0 0 3px #EFEFEF,
+      inset 0 0 10px black,
+      0 0 10px rgba(0,0,0,0.2);
+  }
 
-    .clock-face {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
-    }
+  .clock-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-3px); /* account for the height of the clock hands */
+  }
 
 /*want to apply a rotate to all of the hands depending on the time it currently is*/
 
-    .hand {
-      width:50%;
-      height:6px;
-      background:black;
-      position: absolute;
-      top:50%;  
+  .hand {
+    width:50%;
+    height:6px;
+    background:black;
+    position: absolute;
+    top:50%;  
+    transform-origin: 100%;
+    transform: rotate(90deg);
+    transition: all 0.05s;
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+  }
 
-      /*by default if you say "transfor: rotate(20deg)" the hand will rotate from the center(50%) so we have to change it to 100% so that it rotates starting at the far right */
-      transform-origin: 100%;
+</style>
 
-      /*because divs are a block and left to right the aren't starting vertically as a clock would, so we want to rotate the entire thing*/
-      transform: rotate(90deg);
-      transition: all 0.05s;
-      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
-    }
+<script>
+// first missed out on cutting the mins and hours down properly so fixed that but then had to completely re-write this entire section as the "now" was not coming through. So I had a second hand working and could see the transformations happening in the console but not on the minute of hour hands -even after I thought they were identical to the solution, they were not working, tried "diff index-START.html index-Finished.html" 
 
-  </style>
+  const secondHand = document.querySelector('.second-hand');
+  const minsHand = document.querySelector('.min-hand');
+  const hourHand = document.querySelector('.hour-hand');
 
-  <script>
-    
-    // setting up the hand outside as a Wes Bos style choice...
-    const secondHand = document.querySelector('.second-hand');
-    const minuteHand = document.querySelector('.min-hand');
-    const hourHand = document.querySelector('.hour-hand');
+  function setDate() {
+    const now = new Date();
 
+    const seconds = now.getSeconds();
+    const secondsDegrees = ((seconds / 60) * 360) + 90;
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
-    function setDate() {
-      const now = new Date();
-      // seconds
-      const seconds = now.getSeconds();
-      // shows us the seconds counting in the console
-      console.log(seconds);
-      // we've added 90 because we initially offset the hands by 90 degrees in the styling
-      const secondsDegrees = ((seconds / 60) * 360) + 90;
-      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-      
-      // minutes
-      const minutes = now.getMinutes();
-      const minutesDegrees = ((minutes / 60) * 360) + 90;
-      minuteHand.style.transfom = `rotate(${minutesDegrees}deg)`;
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + ((seconds/60)*6 + 90);
+    minsHand.style.transform = `rotate(${minsDegrees}deg)`;
 
-      // hours
-      const hours = now.getHours();
-      const hoursDegrees = ((hours / 12) * 360) + 90;
-      hourHand.style.transfom = `rotate(${hoursDegrees}deg)`;
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 12) * 360) + ((mins/60)*30) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+  }
 
-    }
+  setInterval(setDate, 1000);
 
-    // we need this to run every second so we have to set interval 
-    setInterval(setDate, 1000);
+  setDate();
 
-
-  </script>
+</script>
 </body>
 </html>
+
+
+
+
+
 
 
 
